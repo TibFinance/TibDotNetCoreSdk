@@ -21,7 +21,7 @@ Then Create a session
 ```   
 CreateSessionArgs sessionArgs = new CreateSessionArgs()
 {
-    ClientId = "", // GUID
+    ClientId = new Guid("CLIENT_ID"), // GUID
     Username = "", // String
     Password = "", // String
 };
@@ -96,6 +96,25 @@ We ca have as many ways to handle the response here be now we will focus on how 
                 // do Something if the Response doesn't have error in it .
             }
         }
+    ```
+    ```
+        private static void ResponseHandler(ClientBaseResponse obj)
+        {
+            // check the HasError Propertie if it's true or false.
+            if (obj.HasError)
+            { 
+                // Do something if the response have Error in it.
+                if (obj.Messages == "Need an authenticated user to perform this action")
+                {
+                  OpenSession();
+                }
+            }
+            else
+            {
+                // do Something if the Response doesn't have error in it .
+            }
+        }
+      
     ```
 this is a way to handle a response , you can choose your own way to handle the response you get. 
 just keep in mind that every response contains the said properties
