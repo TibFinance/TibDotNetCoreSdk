@@ -60,20 +60,20 @@ Each Api Call Return a response Object that Follow the same Object structure
 Ex : this is the base Response that the Sdk use Every Other Custom rsponse implements it's own properties depending on the Call and it's return 
 
 ```
-    // Client base Response.
-    public class ClientBaseResponse
-    {
-        public List<BaseServiceError> Errors { get; set; }
-        public bool HasError { get; set; }
-        public string Messages { get; set; }
-    }
+// Client base Response.
+public class ClientBaseResponse
+{
+    public List<BaseServiceError> Errors { get; set; }
+    public bool HasError { get; set; }
+    public string Messages { get; set; }
+}
 
-    // base Service Error Class
-    public class BaseServiceError
-    {
-        public string ErrorMessage { get; set; }
-        public int ErrorCode { get; set; }
-    }
+// base Service Error Class
+public class BaseServiceError
+{
+    public string ErrorMessage { get; set; }
+    public int ErrorCode { get; set; }
+}
 ```
 We ca have as many ways to handle the response here be now we will focus on how to handle errors here 
 - the most important properties of the object when it comes to Error Handling are :
