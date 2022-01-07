@@ -39,20 +39,19 @@ The ``` TibInvoker.Portal.CreateSession(sessionArgs); ``` method return an objec
 Ex :
 
 ``` 
-    var createCustomerArgs = new CreateCustomerArgs
+var createCustomerArgs = new CreateCustomerArgs
+{
+    SessionToken = _session // Guid,
+    ServiceId = _service, // guid, Id of the Service you wanna add the Customer to.
+    Customer = new CustomerEntity // the customer Object.
     {
-        SessionToken = _session // Guid,
-        ServiceId = _service, // guid, Id of the Service you wanna add the Customer to.
-        Customer = new CustomerEntity // the customer Object.
-        {
-            CustomerDescription = Description, // customer description
-            CustomerName = name, // customer name
-            Language = (LanguageEnum)lang, // the default language ir for the 
-            CustomerExternalId = externalId
-        }
+        CustomerDescription = Description, // customer description
+        CustomerName = name, // customer name
+        Language = (LanguageEnum)lang, // the default language ir for the 
+        CustomerExternalId = externalId
     }
-    var result = TibInvoker.Portal.CreateCustomer(createCustomerArgs);
-
+}
+var result = TibInvoker.Portal.CreateCustomer(createCustomerArgs);
 ```
 ## Handling Response 
 
@@ -84,37 +83,37 @@ We ca have as many ways to handle the response here be now we will focus on how 
 
 - so basicaly you can do something like : 
     ```
-        private static void ResponseHandler(ClientBaseResponse obj)
+    private static void ResponseHandler(ClientBaseResponse obj)
+    {
+        // check the HasError Propertie if it's true or false.
+        if (obj.HasError)
+        { 
+            // Do something if the response have Error in it.
+        }
+        else
         {
-            // check the HasError Propertie if it's true or false.
-            if (obj.HasError)
-            { 
-                // Do something if the response have Error in it.
-            }
-            else
+            // do Something if the Response doesn't have error in it .
+        }
+    }
+    ```
+    * This is a Real life Example of how to refresh the session token after the response returns a session expired :
+    ```
+    private static void ResponseHandler(ClientBaseResponse obj)
+    {
+        // check the HasError Propertie if it's true or false.
+        if (obj.HasError)
+        { 
+            // Do something if the response have Error in it.
+            if (obj.Messages == "Need an authenticated user to perform this action")
             {
-                // do Something if the Response doesn't have error in it .
+              OpenSession();
             }
         }
-    ```
-    ```
-        private static void ResponseHandler(ClientBaseResponse obj)
+        else
         {
-            // check the HasError Propertie if it's true or false.
-            if (obj.HasError)
-            { 
-                // Do something if the response have Error in it.
-                if (obj.Messages == "Need an authenticated user to perform this action")
-                {
-                  OpenSession();
-                }
-            }
-            else
-            {
-                // do Something if the Response doesn't have error in it .
-            }
+            // do Something if the Response doesn't have error in it .
         }
-      
+    }      
     ```
 this is a way to handle a response , you can choose your own way to handle the response you get. 
 just keep in mind that every response contains the said properties
