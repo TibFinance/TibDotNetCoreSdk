@@ -55,7 +55,7 @@ var result = TibInvoker.Portal.CreateCustomer(createCustomerArgs);
 
 Each Api Call Return a response Object that Follow the same Object structure 
 
-Ex : this is the base Response that the Sdk use Every Other Custom rsponse implements it's own properties depending on the Call and it's return 
+Ex : this is the base Response that the Sdk use, Every Other Custom response implements this Class Plus it's own properties depending on the Call and it's return
 
 ```
 // Client base Response.
