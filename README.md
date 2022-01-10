@@ -10,23 +10,21 @@ here you'll find CodeSample to how to use the Tib DotNet Core SDK.
 ## Set Up 
 ` Before you using the SDK you need to set the api url up and get a session id. `
 
-Initiat the TibInvoker Class : the Class that We are going to have the most interactions with.
+* Initialize the siteurl by using this line under: this Allows the SDK to know which Api to Call the methods from.
 
-``` TibInvoker.InitializePortal(_siteUrl); ```
+    ``` TibInvoker.InitializePortal(_siteUrl); ```
 
-This line Sets up the Api Url and Create a TibPortal Object that let's you call the Api Methods.
+* Then Create a session
 
-Then Create a session
-
-```   
-CreateSessionArgs sessionArgs = new CreateSessionArgs()
-{
-    ClientId = new Guid("CLIENT_ID"), // GUID
-    Username = "", // String
-    Password = "", // String
-};
-CreateSessionResponse response = TibInvoker.Portal.CreateSession(sessionArgs); 
-```
+    ```   
+    CreateSessionArgs sessionArgs = new CreateSessionArgs()
+    {
+        ClientId = new Guid("CLIENT_ID"), // GUID
+        Username = "", // String
+        Password = "", // String
+    };
+    CreateSessionResponse response = TibInvoker.Portal.CreateSession(sessionArgs); 
+    ```
 
 The ``` TibInvoker.Portal.CreateSession(sessionArgs); ``` method return an object containing the SessionId that needs to be passed with each Call.
 
@@ -41,7 +39,7 @@ Ex :
 ``` 
 var createCustomerArgs = new CreateCustomerArgs
 {
-    SessionToken = _session // Guid,
+    SessionToken = _session // the current Session Id,
     ServiceId = _service, // guid, Id of the Service you wanna add the Customer to.
     Customer = new CustomerEntity // the customer Object.
     {
