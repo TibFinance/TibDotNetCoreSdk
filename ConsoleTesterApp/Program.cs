@@ -15,7 +15,7 @@ namespace ConsoleTesterApp
   class Program
   {
     private static Guid? _session = null;
-    private static string _siteUrl = "http://localhost:61841/";
+    private static string _siteUrl = "http://sandboxportal.tib.finance";
     private static Guid _clientId = new Guid("9bfd1de3-2bb4-4a64-8b71-453699dff214");
     private static Guid _service = new Guid("8e373a22-8500-4fe2-9b6a-3225bca871dd");
     private static Guid? _provider = null;

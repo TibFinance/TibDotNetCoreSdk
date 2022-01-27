@@ -41,7 +41,7 @@ The ``` TibInvoker.Portal.CreateSession(sessionArgs); ``` method return an objec
 
 ` after you set up the api url and created a session you can start Using the Other Methods of the Sdk `
 
-*here you see one Example but you'll see more Examples of Using the SDK in the Program.cs File*
+*here you see one Example but you'll see more Examples of Using the SDK in the ```Program.cs``` File*
 
 Ex :
 

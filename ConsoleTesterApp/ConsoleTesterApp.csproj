@@ -6,7 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tib.Api.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Tib.Api">
+      <HintPath>..\Dlls\Tib.Api.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
