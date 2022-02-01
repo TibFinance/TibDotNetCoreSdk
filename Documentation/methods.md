@@ -480,13 +480,17 @@ var result = TibInvoker.Portal.ListExecutedOperations(listExecutedOperationsArgs
 ## Whitelabeling (UI Looks)
 
 The Whitelabeling can be set on multiple levels 
+
 * Client
 * Service
 * Merchant
-please See [whitelabeling levels enums](./README.md#WhiteLabeling-levels-enum)
+
+please See [whitelabeling levels enums](../README.md#WhiteLabeling-levels-enum)
 
 The WhiteLabeling Use 2 main Objects `WhiteLabelingModel` and `WhiteLabelingDataModel`
+
 The first is a container of white labeling Values for a single entity (client, service, merchant) and have a list of `WhiteLabelingDataModel`.
+
 The Second one represents the values that a single whitelabeling cssProperty going to have.
 
 ### Set WhiteLabeling
@@ -552,4 +556,79 @@ var wlArgs = new GetWhiteLabelingArgs {
 	SessionToken = _session 
 };
 var result = TibInvoker.Portal.GetListWhiteLabeling(wlArgs);
+```
+
+## Clients
+### sub-client
+```
+var createSubClientArgs = new Tib.Api.Model.SubClient.CreateSubClientArgs
+{
+	SessionToken = _session,
+	Name = subClientName,
+	Language = lang
+};
+var Result = TibInvoker.Portal.CreateSubClient(createSubClientArgs);
+```
+### Set client default service fee settings
+```
+var setClientDefaultServiceFeeSettingsArgs = new Tib.Api.Model.Service.SetClientDefaultServiceFeeSettingsArgs
+{
+	SessionToken = _session,
+	ClientId = _clientId,
+	ServiceFeeSettings = new Tib.Api.Model.Service.ServiceFeeSettingsModel
+	{
+		ConvenientFeeDebitAbsoluteFee = 0,
+		ConvenientFeeCreditAbsoluteFee = 0,
+		ConvenientFeeCreditMode = ConvenientFeeModeEnum.NotSet,
+		ConvenientFeeCreditPercentageFee = 0,
+		ConvenientFeeCreditRoundUpValue = 0,
+		ConvenientFeeDebitMode = ConvenientFeeModeEnum.NotSet,
+		ConvenientFeeDebitPercentageFee = 0,
+		ConvenientFeeDebitRoundUpValue = 0,
+		CreditCardAbsoluteFee = 0,
+		CreditCardFeeMode = FeeModeEnum.NotSet,
+		CreditCardFeeRoundUpValue = 0,
+		CreditCardPercentageFee = 0,
+		DebitAbsoluteFee = 0,
+		DebitFeeMode = FeeModeEnum.NotSet,
+		DebitFeeRoundUpValue = 0,
+		DebitNFSFees = 0,
+		DebitPercentageFee = 0,
+		InteracFeeAbsolute = 0,
+		InteracFeeCollectAbsolute = 0,
+		InteracFeeCollectPercentage = 0,
+		InteracFeePercentage = 0,
+		NFSFileFees = 0,
+		RevertCreditCardAbsoluteFees = 0,
+		RevertCreditCardPercentageFees = 0,
+		RevertDebitAbsoluteFees = 0,
+		RevertDebitPercentageFees = 0
+	// service Fees settings to apply . 
+	}
+};
+var result = TibInvoker.Portal.SetClientDefaultServiceFeeSettings(setClientDefaultServiceFeeSettingsArgs);
+```
+### Set client settings
+```
+var setClientSettingArgs = new Tib.Api.Model.Service.SetClientSettingsArgs
+{
+	SessionToken = _session,
+	CLientId = _clientId,
+	ClientSettings = new Tib.Api.Model.Service.ClientSettings
+	{
+		CollectionLimitDaily = 93849,
+		DepositLimitDaily = 2994949
+	}
+};
+var result = TibInvoker.Portal.SetClientSettings(setClientSettingArgs);
+```
+### Get client settings
+
+```
+var getClientSettingsArgs = new Tib.Api.Model.Service.GetClientSettingsArgs
+{
+	SessionToken = _session,
+	CLientId = _clientId
+};
+var result = TibInvoker.Portal.GetClientSettings(getClientSettingsArgs);
 ```
