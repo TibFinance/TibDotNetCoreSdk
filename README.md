@@ -25,8 +25,8 @@ Calls to the service are done via a WEB service. There are two URLs for the serv
 
 * Then Create a session
 
-    ```   
-    CreateSessionArgs sessionArgs = new CreateSessionArgs()
+    ```   **
+    CreateSessionArgs sessionArgs = new CreateSessio**nArgs()
     {
         ClientId = new Guid("CLIENT_ID"), // GUID
         Username = "", // String
