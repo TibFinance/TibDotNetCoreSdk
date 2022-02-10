@@ -147,7 +147,7 @@ We can have many ways to handle the response, now we will focus on how to handle
         }
     }      
     ```
-this is a way to handle a response , you can choose your own way to handle the response you get. 
+This is a way to handle a response , you can choose your own way to handle the response you get. 
 just keep in mind that every response contains the said properties
 
 For more details about mothods visit [here](./Documentation/methods.md)
@@ -165,7 +165,6 @@ var address = new AddressModel
     StreetAddress = ""
 }
 ```
-
 
 ### LanguageEnum
 ```
