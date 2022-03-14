@@ -267,6 +267,57 @@ var deletePaymentMethodArgs = new Tib.Api.Model.PaymentMethod.DeletePaymentMetho
 var result = TibInvoker.Portal.DeletePaymentMethod(deletePaymentMethodArgs);
 ```
 
+
+### List Transfers
+```
+var result  = TibInvoker.Portal.ListTransfers(new Tib.Api.Model.Payment.ListTransfersArgs
+      {
+        SessionToken = _session,
+        FromDate = new DateTime(2020, 01, 01),
+        ExternalMerchantGroupId = "", 
+        LevelFilterId = new Guid(), 
+        MarkResolvedOnly = false, 
+        PaymentFilterLevel = PaymentFilterLevelEnum.Bill, 
+        TransferType = TransferTypeFlag.All, 
+        ToDate = DateTime.Now,
+        TransferGroupId = "",
+        OnlyWithErrors = false,
+      });
+
+      ResponseHandler(result, JsonConvert.SerializeObject(result.Payments));
+```
+
+### List Transfers Fast
+```
+      var result = TibInvoker.Portal.ListTransfersFast(new Tib.Api.Model.Payment.ListTransfersFastArgs
+      {
+        SessionToken = _session,
+        FromDate = new DateTime(2020, 01, 01),
+        ExternalMerchantGroupId = "",
+        MerchantId = new Guid(), // Merchant Id
+        MarkResolvedOnly = false,
+        TransferType = TransferTypeEnum.PaymentAndFreeCollection, // depending on the type of payment you wanna retrieve.
+        ToDate = DateTime.Now,
+        TransferGroupId = "",
+        OnlyWithErrors = false,
+      });
+
+      ResponseHandler(result, JsonConvert.SerializeObject(result.Transfers));
+
+```
+
+### List transfers For Bill Fast
+```
+var result = TibInvoker.Portal.ListTransfersForBillFast(new Tib.Api.Model.Payment.ListTransfersForBillFastArgs
+      {
+        SessionToken = _session,
+        BillId = new Guid() , // the bill Id 
+        MerchantId = new Guid() // The Merchant Id .
+      });
+
+      ResponseHandler(result, JsonConvert.SerializeObject(result.Transfers));
+```
+
 ## Bills / Payments / Transfers
 
 ### Create Bill
