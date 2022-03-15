@@ -37,6 +37,9 @@
 	* [Delete Recuring process](#delete-recuring-process).
 	* [Reporting of Operation](#reporting-of-operation)
 	* [List Executed Operations](#list-executed-operations).
+	* [List Transfers](#list-transfers).
+	* [List Transfers Fast](#list-transfers-fast)
+	* [List transfers For Bill Fast](#list-transfers-for-bill-fast).
 
 * #### Merchants
 	* [Merchant basic information object](#merchant-basic-information-object).
