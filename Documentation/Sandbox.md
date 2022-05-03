@@ -1,0 +1,80 @@
+# How sandbox will process the transactions
+Since we are in a testing environment, we cannot process the transactions in the same way that production does. For that reason, we have created a simple way for you to follow the whole lifecycle of the transaction.
+
+Every minute each transaction will change their status until they reach one of the following status: failed, cancelled, or successful; depending on the transaction amount. These rules apply to all funding, withdraw, bulk payout and money request transactions.
+
+Amounts
+
+The transaction status will change based on its amount. If you want your transactions to fall in the next statuses, please create them under the following rules:
+## Status Check Errors. 
+
+- 17.01 - 17.17 - Will produce an account error .
+    - Validation rejection
+      1. 17.00: 900:R-ECHEC CONTROLE MODULO - CPTE NON VALIDE. ENTRER NO CPTE VALIDE.
+      2. 17.01: 900:R-GROUPE NO DE CPTE ERRONE - NUMERO TROP PETIT OU TROP GRAND.
+      3. 17.02: 900:R-LA MONNAIE DU COMPTE ET DU PAIEMENT DOIVENT ETRE LES MEMES
+      4. 17.03: 900:R-NO COMPTE INTROUVABLE DANS FICHIER DES INSTITUTIONS FINANCIERES.
+      5. 17.04: 900:R-NO IDENT INTROUVABLE DANS FICHIER DES INSTITUTIONS FINANCIERES.
+      6. 17.05: 900:R-POINT D'ECHANGE INV.
+      7. 17.06: 900:R-POSITION NO CPTE ERRONE - CPTE NON VALIDE. ENTRER NO VALIDE.
+      8. 17.07: 900:R-SUCCURSALE FERMEE."
+      9. 17.08: 900:T-ECHEC CONTROLE MODULO - CPTE NON VALIDE. ENTRER NO CPTE VALIDE.
+      10. 17.09: 900:T-GROUPE NO DE CPTE ERRONE - NUMERO TROP PETIT OU TROP GRAND.
+      11. 17.10: 900:T-NO COMPTE INTROUVABLE DANS FICHIER DES INSTITUTIONS FINANCIERES.
+      12. 17.11: 900:T-NO IDENT INTROUVABLE DANS FICHIER DES INSTITUTIONS FINANCIERES.
+      13. 17.12: 900:T-POINT D'ECHANGE INV
+      14. 17.13: 900:T-POSITION NO CPTE ERRONE - CPTE NON VALIDE. ENTRER NO VALIDE.
+      15. 17.14: 900:T-SUCCURSALE FERMEE.
+    - Other
+      1.  17.15: 902:ACCOUNT NOT FOUND
+      2.  17.16: 905:CLOSED ACCOUNT
+      3.  17.17: 911:FROZEN ACCOUNT
+
+
+## Payback Errors. 
+
+- 17.50 - 17.51 - Will produce no funds error.  
+    1. 17.50: 901:SP - SANS PROVISION (DT)
+    2. 17.51: 908:FUNDS NOT COMPENSATED 
+
+- 17.52 - 17.59 - Opposition errors. 
+    1. 17.52: 903:STOP PAYMENT
+    2. 17.53: 915:REFUSED - NO AGREEMENT
+    3. 17.54: 916:NOT IN ACC./ AGREEMENT (Personal)
+    4. 17.55: 917:ACCORD REVOQUE - PERSONNEL
+    5. 17.56: 918:NO PRENOTIFICATION (Personal).
+    6. 17.57: 919:NOT IN ACC./ AGREEMENT (ENTERPRISE)
+    7. 17.58: 920:AGREEMENT REVOKED (ENTERPRISE)
+    8. 17.59: 922:CT RETURNED BY PAYEE
+
+- 17.60 - 17.78 - Account error
+  - Validation rejection
+    1. 17.60: 900:R-ECHEC CONTROLE MODULO - CPTE NON VALIDE. ENTRER NO CPTE VALIDE.
+    2. 17.61: 900:R-GROUPE NO DE CPTE ERRONE - NUMERO TROP PETIT OU TROP GRAND.
+    3. 17.62: 900:R-LA MONNAIE DU COMPTE ET DU PAIEMENT DOIVENT ETRE LES MEMES
+    4. 17.63: 900:R-NO COMPTE INTROUVABLE DANS FICHIER DES INSTITUTIONS FINANCIERES.
+    5. 17.64: 900:R-NO IDENT INTROUVABLE DANS FICHIER DES INSTITUTIONS FINANCIERES.
+    6. 17.65: 900:R-POINT D'ECHANGE INV.
+    7. 17.66: 900:R-POSITION NO CPTE ERRONE - CPTE NON VALIDE. ENTRER NO VALIDE.
+    8. 17.67: 900:R-SUCCURSALE FERMEE."
+    9. 17.68: 900:T-ECHEC CONTROLE MODULO - CPTE NON VALIDE. ENTRER NO CPTE VALIDE.
+    10. 17.69: 900:T-GROUPE NO DE CPTE ERRONE - NUMERO TROP PETIT OU TROP GRAND.
+    11. 17.70: 900:T-NO COMPTE INTROUVABLE DANS FICHIER DES INSTITUTIONS FINANCIERES.
+    12. 17.71: 900:T-NO IDENT INTROUVABLE DANS FICHIER DES INSTITUTIONS FINANCIERES.
+    13. 17.72: 900:T-POINT D'ECHANGE INV
+    14. 17.73: 900:T-POSITION NO CPTE ERRONE - CPTE NON VALIDE. ENTRER NO VALIDE.
+    15. 17.74: 900:T-SUCCURSALE FERMEE.
+  - other
+    1.  17.75: 902:ACCOUNT NOT FOUND
+    2.  17.76: 905:CLOSED ACCOUNT
+    3.  17.77: 911:FROZEN ACCOUNT GELE
+    4.  17.78: 912:INVALID/UNEXACT ACCOUNT NUMBER
+    
+- 17.79 - 17.82 Other errors.
+    
+    1. 17.79: 900:MODIFICATION REJECTED
+    2. 17.80: 907:DEBIT NOT ALLOWED
+    3. 17.81: 910:PAYER/PAYEE DECEASED
+    4. 17.82: 914:WRONG PAYER/BENEFICIARY NAME
+    
+The rest of the amounts (.83 to .99 and integer values) will be processed automatically reaching a successful status.
