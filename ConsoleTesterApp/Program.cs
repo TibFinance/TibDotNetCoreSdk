@@ -422,7 +422,8 @@ namespace ConsoleTesterApp
                     CustomerDescription = Description,
                     CustomerName = name,
                     Language = (LanguageEnum)lang,
-                    CustomerExternalId = externalId
+                    CustomerExternalId = externalId, 
+                    CustomerEmail = "Customer@Email.com"
                 }
             });
             ResponseHandler(result, "Customer Added Successfuly.");
