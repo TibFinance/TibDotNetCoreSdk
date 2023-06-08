@@ -15,11 +15,15 @@ namespace ConsoleTesterApp
     class Program
     {
         private static Guid? _session = null;
-        private static string _siteUrl = "https://sandboxportal.tib.finance/";
-        private static Guid _clientId = new Guid("");
-        private static Guid _service = new Guid("");
+        //private static string _siteUrl = "https://public.tib.finance";
+        //private static Guid _clientId = new Guid("1ffef05b-eb92-4904-a859-58af4d2a435c");
+        //private static Guid _service = new Guid("36acd8b2-98a7-4c22-918e-542c40dd3dbb");
+        private static string _siteUrl = "http://sandboxportal.tib.finance";
+        private static Guid _clientId = new Guid("9fd2c4c7-0a35-4f74-91c2-04b803208de2");
+        private static Guid _service = new Guid("0e97a2ce-b9ec-4c95-bdee-98e4f519d872");
         private static Guid? _provider = null;
-        private static Guid _merchant = new Guid(""); // default merchant 
+        //private static Guid _merchant = new Guid("fad94ef8-937a-4c93-9184-311f390b0ac7"); // default merchant 
+        private static Guid _merchant = new Guid("6184c36f-5d6f-453b-8188-785b26ebde33"); // default merchant 
         private static Guid _bill = new Guid(""); // default Bill to go to 
         private static Guid _customer = new Guid(""); // default  Customer
         private static Guid _paymentMethodId = new Guid("");
@@ -27,242 +31,249 @@ namespace ConsoleTesterApp
         private static Guid? _transfer = null;
         static void Main(string[] args)
         {
-            TibInvoker.InitializePortal(_siteUrl);
-
-            char key = ' ';
-            while (key != 'x' && key != 'X')
+            try
             {
-                Console.Clear();
-                if (_session.HasValue)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("----SESSION:" + _session.Value.ToString() + "----");
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-                key = Menus.MenuPreSelect(_session);
-                switch (key)
-                {
-                    case 'o':
-                    case 'O':
-                        OpenSession();
-                        break;
-                    case 'w':
-                    case 'W': // whitelabeling Methods;
-                        char wlstep = Menus.WhitelabelingMenu();
-                        switch (wlstep)
-                        {
-                            case '1':
-                                GetWhiteLabeling();
-                                break;
-                            case '2':
-                                GetListWhiteLabelings();
-                                break;
-                            case '3':
-                                AddWhiteLabeling();
-                                break;
-                            case '4':
-                                DeleteWhiteLabeling();
-                                break;
-                            case '5':
-                                UpdateWhiteLabeling();
-                                break;
-                        }
-                        break;
-                    case 'c':
-                    case 'C': // Customer Methods
-                        char cStep = Menus.CustomerMenu();
-                        switch (cStep)
-                        {
-                            case '1':
-                                GetCustomer();
-                                break;
-                            case '2':
-                                CreateCustomer();
-                                break;
-                            case '3':
-                                DeleteCustomer();
-                                break;
-                            case '4':
-                                GetCustomerByExternalId();
-                                break;
-                            case '5':
-                                GetListCustomers();
-                                break;
-                            case '6':
-                                SaveCustomer();
-                                break;
-                        }
-                        break;
-                    case 'b':
-                    case 'B': // Bill Methods
-                        char bStep = Menus.BillMenu();
-                        switch (bStep)
-                        {
-                            case '1':
-                                CreateNewBill();
-                                break;
-                            case '2':
-                                DeleteBill();
-                                break;
-                            case '3':
-                                ListBills();
-                                break;
-                            case '4':
-                                GetBill();
-                                break;
-                        }
-                        break;
-                    case 'P':
-                    case 'p': // Payment Methods
-                        string pStep = Menus.PaymentMenu();
-                        switch (pStep)
-                        {
-                            case "1":
-                                CreatePayement();
-                                break;
-                            case "2":
-                                DeletePayment();
-                                break;
-                            case "3":
-                                CreateDirecDeposit();
-                                break;
-                            case "4":
-                                CreateDirectInteracTransaction();
-                                break;
-                            case "5":
-                                CreateTransactionFromRaw();
-                                break;
-                            case "6":
-                                CreateFreeOperation();
-                                break;
-                            case "7":
-                                RevertTransfer();
-                                break;
-                            case "8":
-                                GetRecuringTransfers();
-                                break;
-                            case "9":
-                                DeleteRecuringTransfer();
-                                break;
-                            case "10":
-                                CreateDirectAccountPaymentMethod();
-                                break;
-                            case "11":
-                                CreateCreditCardPaymentMethod();
-                                break;
-                            case "12":
-                                GetPaymentMethod();
-                                break;
-                            case "13":
-                                ListPaymentMethod();
-                                break;
-                            case "14":
-                                SetDefaultPaymentMethod();
-                                break;
-                            case "15":
-                                DeletePayentMethod();
-                                break;
-                            case "16":
-                                GetPayment();
-                                break;
-                            case "18":
-                                MarkPaymentResolved();
-                                break;
-                            case "21":
-                                //GetFeeCount();
-                                break;
-                            case "22":
-                                ForcePaymentProcess();
-                                break;
-                            case "23":
-                                Login();
-                                break;
-                            case "24":
-                                GetLoginAccessList();
-                                break;
-                            case "25":
-                                GetDropinPublicToken();
-                                break;
-                            case "26":
-                                AddNewDasProvider();
-                                break;
-                            case "27":
-                                AddNewDasPayment();
-                                break;
-                            case "28":
-                                ListDasProviders();
-                                break;
-                            case "29":
-                                ListDasPayments();
-                                break;
-                            case "30":
-                                GetMerchantByExternalId();
-                                break;
-                            case "31":
-                                ChangeInteracPaymentMethodQuestionAnswer();
-                                break;
-                        }
-                        break;
-                    case 's':
-                    case 'S': // Service Methods.
-                        string sStep = Menus.ServiceMenu();
-                        switch (sStep)
-                        {
-                            case "1":
-                                CreateSubClient();
-                                break;
-                            case "2":
-                                //SetClientDefaultServiceSettings();
-                                break;
-                            case "3":
-                                SetClientDefaultServiceFeeSettings();
-                                break;
-                            case "4":
-                                SetClientSettigs();
-                                break;
-                            case "5":
-                                GetClientSettings();
-                                break;
-                            case "6":
-                                ListServices();
-                                break;
-                            case "7":
-                                GetService();
-                                break;
-                            case "8":
-                                CreateMerchant();
-                                break;
-                            case "9":
-                                GetMerchant();
-                                break;
-                            case "10":
-                                SaveMerchant();
-                                break;
-                            case "11":
-                                SaveMerchantBasicInfo();
-                                break;
-                            case "12":
-                                SaveMerchantAccountInfo();
-                                break;
-                            case "13":
-                                DeleteMerchant();
-                                break;
-                        }
-                        break;
-                    case 'r':
-                    case 'R': // Report Menu
-                        char rStep = Menus.ReportMenu();
-                        switch (rStep)
-                        {
-                            case '1':
-                                ListExecutedOperation();
-                                break;
-                        }
-                        break;
-                }
-            }
+                TibInvoker.InitializePortal(_siteUrl);
 
-            Console.ReadKey();
+                char key = ' ';
+                while (key != 'x' && key != 'X')
+                {
+                    Console.Clear();
+                    if (_session.HasValue)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("----SESSION:" + _session.Value.ToString() + "----");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    key = Menus.MenuPreSelect(_session);
+                    switch (key)
+                    {
+                        case 'o':
+                        case 'O':
+                            OpenSession();
+                            break;
+                        case 'w':
+                        case 'W': // whitelabeling Methods;
+                            char wlstep = Menus.WhitelabelingMenu();
+                            switch (wlstep)
+                            {
+                                case '1':
+                                    GetWhiteLabeling();
+                                    break;
+                                case '2':
+                                    GetListWhiteLabelings();
+                                    break;
+                                case '3':
+                                    AddWhiteLabeling();
+                                    break;
+                                case '4':
+                                    DeleteWhiteLabeling();
+                                    break;
+                                case '5':
+                                    UpdateWhiteLabeling();
+                                    break;
+                            }
+                            break;
+                        case 'c':
+                        case 'C': // Customer Methods
+                            char cStep = Menus.CustomerMenu();
+                            switch (cStep)
+                            {
+                                case '1':
+                                    GetCustomer();
+                                    break;
+                                case '2':
+                                    CreateCustomer();
+                                    break;
+                                case '3':
+                                    DeleteCustomer();
+                                    break;
+                                case '4':
+                                    GetCustomerByExternalId();
+                                    break;
+                                case '5':
+                                    GetListCustomers();
+                                    break;
+                                case '6':
+                                    SaveCustomer();
+                                    break;
+                            }
+                            break;
+                        case 'b':
+                        case 'B': // Bill Methods
+                            char bStep = Menus.BillMenu();
+                            switch (bStep)
+                            {
+                                case '1':
+                                    CreateNewBill();
+                                    break;
+                                case '2':
+                                    DeleteBill();
+                                    break;
+                                case '3':
+                                    ListBills();
+                                    break;
+                                case '4':
+                                    GetBill();
+                                    break;
+                            }
+                            break;
+                        case 'P':
+                        case 'p': // Payment Methods
+                            string pStep = Menus.PaymentMenu();
+                            switch (pStep)
+                            {
+                                case "1":
+                                    CreatePayement();
+                                    break;
+                                case "2":
+                                    DeletePayment();
+                                    break;
+                                case "3":
+                                    CreateDirecDeposit();
+                                    break;
+                                case "4":
+                                    CreateDirectInteracTransaction();
+                                    break;
+                                case "5":
+                                    CreateTransactionFromRaw();
+                                    break;
+                                case "6":
+                                    CreateFreeOperation();
+                                    break;
+                                case "7":
+                                    RevertTransfer();
+                                    break;
+                                case "8":
+                                    GetRecuringTransfers();
+                                    break;
+                                case "9":
+                                    DeleteRecuringTransfer();
+                                    break;
+                                case "10":
+                                    CreateDirectAccountPaymentMethod();
+                                    break;
+                                case "11":
+                                    CreateCreditCardPaymentMethod();
+                                    break;
+                                case "12":
+                                    GetPaymentMethod();
+                                    break;
+                                case "13":
+                                    ListPaymentMethod();
+                                    break;
+                                case "14":
+                                    SetDefaultPaymentMethod();
+                                    break;
+                                case "15":
+                                    DeletePayentMethod();
+                                    break;
+                                case "16":
+                                    GetPayment();
+                                    break;
+                                case "18":
+                                    MarkPaymentResolved();
+                                    break;
+                                case "21":
+                                    //GetFeeCount();
+                                    break;
+                                case "22":
+                                    ForcePaymentProcess();
+                                    break;
+                                case "23":
+                                    Login();
+                                    break;
+                                case "24":
+                                    GetLoginAccessList();
+                                    break;
+                                case "25":
+                                    GetDropinPublicToken();
+                                    break;
+                                case "26":
+                                    AddNewDasProvider();
+                                    break;
+                                case "27":
+                                    AddNewDasPayment();
+                                    break;
+                                case "28":
+                                    ListDasProviders();
+                                    break;
+                                case "29":
+                                    ListDasPayments();
+                                    break;
+                                case "30":
+                                    GetMerchantByExternalId();
+                                    break;
+                                case "31":
+                                    ChangeInteracPaymentMethodQuestionAnswer();
+                                    break;
+                            }
+                            break;
+                        case 's':
+                        case 'S': // Service Methods.
+                            string sStep = Menus.ServiceMenu();
+                            switch (sStep)
+                            {
+                                case "1":
+                                    CreateSubClient();
+                                    break;
+                                case "2":
+                                    //SetClientDefaultServiceSettings();
+                                    break;
+                                case "3":
+                                    SetClientDefaultServiceFeeSettings();
+                                    break;
+                                case "4":
+                                    SetClientSettigs();
+                                    break;
+                                case "5":
+                                    GetClientSettings();
+                                    break;
+                                case "6":
+                                    ListServices();
+                                    break;
+                                case "7":
+                                    GetService();
+                                    break;
+                                case "8":
+                                    CreateMerchant();
+                                    break;
+                                case "9":
+                                    GetMerchant();
+                                    break;
+                                case "10":
+                                    SaveMerchant();
+                                    break;
+                                case "11":
+                                    SaveMerchantBasicInfo();
+                                    break;
+                                case "12":
+                                    SaveMerchantAccountInfo();
+                                    break;
+                                case "13":
+                                    DeleteMerchant();
+                                    break;
+                            }
+                            break;
+                        case 'r':
+                        case 'R': // Report Menu
+                            char rStep = Menus.ReportMenu();
+                            switch (rStep)
+                            {
+                                case '1':
+                                    ListExecutedOperation();
+                                    break;
+                            }
+                            break;
+                    }
+                }
+
+                Console.ReadKey();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
         }
 
         private static void OpenSession()
@@ -270,9 +281,9 @@ namespace ConsoleTesterApp
             Console.Clear();
             Console.WriteLine("OPEN SESSION");
             Console.WriteLine("********************************");
-            Console.WriteLine("Enter user");
+            Console.WriteLine("Enter user:-");
             string user = Console.ReadLine();
-            Console.WriteLine("Enter password");
+            Console.WriteLine("Enter password:-");
             string pass = Console.ReadLine();
 
 
@@ -368,13 +379,14 @@ namespace ConsoleTesterApp
             );
             if (!theGetResult.HasError)
             {
-                var localWhiteLabelingToUpdate = new List<WhiteLabelingDataModel>() {
-        new WhiteLabelingDataModel {
-          WhiteLabelingDataId = theGetResult.WhiteLabeling.WhiteLabelingData[3].WhiteLabelingDataId,
-          CssProperty  = theGetResult.WhiteLabeling.WhiteLabelingData[3].CssProperty,
-          CssValue = "some new colors "
-        }
-      };
+                var localWhiteLabelingToUpdate = new List<WhiteLabelingDataModel>()
+                {
+                   new WhiteLabelingDataModel {
+                     WhiteLabelingDataId = theGetResult.WhiteLabeling.WhiteLabelingData[3].WhiteLabelingDataId,
+                     CssProperty  = theGetResult.WhiteLabeling.WhiteLabelingData[3].CssProperty,
+                     CssValue = "some new colors "
+                   }
+                };
                 var result = TibInvoker.Portal.UpdateWhiteLabeling(
                   new UpdateWhiteLabelingDataArgs
                   {
@@ -557,7 +569,7 @@ namespace ConsoleTesterApp
             ResponseHandler(result, JsonConvert.SerializeObject(result.Bill));
         }
         #endregion
-        #region payment.
+        #region payment
         private static void CreatePayement()
         {
             Console.Clear();
