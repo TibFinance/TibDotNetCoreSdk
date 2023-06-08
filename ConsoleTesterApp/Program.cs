@@ -569,7 +569,7 @@ namespace ConsoleTesterApp
             ResponseHandler(result, JsonConvert.SerializeObject(result.Bill));
         }
         #endregion
-        #region payment
+        #region Payment
         private static void CreatePayement()
         {
             Console.Clear();
