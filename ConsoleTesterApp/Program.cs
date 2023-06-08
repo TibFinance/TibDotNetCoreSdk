@@ -281,9 +281,9 @@ namespace ConsoleTesterApp
             Console.Clear();
             Console.WriteLine("OPEN SESSION");
             Console.WriteLine("********************************");
-            Console.WriteLine("Enter user:-");
+            Console.WriteLine("Enter user:");
             string user = Console.ReadLine();
-            Console.WriteLine("Enter password:-");
+            Console.WriteLine("Enter password:");
             string pass = Console.ReadLine();
 
 
