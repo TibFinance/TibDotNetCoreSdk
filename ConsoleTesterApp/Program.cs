@@ -14,38 +14,49 @@ namespace ConsoleTesterApp
 {
     class Program
     {
-        private static Guid? _session = null;
+
         //private static string _siteUrl = "https://public.tib.finance";
         //private static Guid _clientId = new Guid("1ffef05b-eb92-4904-a859-58af4d2a435c");
         //private static Guid _service = new Guid("36acd8b2-98a7-4c22-918e-542c40dd3dbb");
+        private static string? _session = null;
         private static string _siteUrl = "http://sandboxportal.tib.finance";
-        private static Guid _clientId = new Guid("9fd2c4c7-0a35-4f74-91c2-04b803208de2");
-        private static Guid _service = new Guid("0e97a2ce-b9ec-4c95-bdee-98e4f519d872");
-        private static Guid? _provider = null;
+        private static string _clientId = "9fd2c4c7-0a35-4f74-91c2-04b803208de2";
+        private static string _service = "0e97a2ce-b9ec-4c95-bdee-98e4f519d872";
+        private static string _provider = null;
         //private static Guid _merchant = new Guid("fad94ef8-937a-4c93-9184-311f390b0ac7"); // default merchant 
-        private static Guid _merchant = new Guid("6184c36f-5d6f-453b-8188-785b26ebde33"); // default merchant 
-        private static Guid _bill = new Guid(""); // default Bill to go to 
-        private static Guid _customer = new Guid(""); // default  Customer
-        private static Guid _paymentMethodId = new Guid("");
-        private static Guid? _payment = null; // you'll have to create a payment then this variabl with get filled automaticaly.
-        private static Guid? _transfer = null;
+        private static string _merchant = "6184c36f-5d6f-453b-8188-785b26ebde33"; // default merchant 
+        private static string _bill = ""; // default Bill to go to 
+        private static string _customer = ""; // default  Customer
+        private static string _paymentMethodId = "";
+        private static string _payment = ""; // you'll have to create a payment then this variabl with get filled automaticaly.
+        private static string _transfer = "";
+        //Username: tutulchakma
+        //Password: $!8DxNANvpPH#!
+
         static void Main(string[] args)
         {
             try
             {
-                TibInvoker.InitializePortal(_siteUrl);
+                TibInvoker.InitializePortal("http://sandboxportal.tib.finance");
 
                 char key = ' ';
                 while (key != 'x' && key != 'X')
                 {
                     Console.Clear();
-                    if (_session.HasValue)
+                    Guid? session = null;
+                    if (string.IsNullOrEmpty(_session))
                     {
+                        session = Guid.Empty;
+                    }
+                    else
+                    {
+                        session= new Guid(_session);
                         Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("----SESSION:" + _session.Value.ToString() + "----");
+                        Console.WriteLine("----SESSION:" + session.Value.ToString() + "----");
                         Console.ForegroundColor = ConsoleColor.White;
                     }
-                    key = Menus.MenuPreSelect(_session);
+                    
+                    key = Menus.MenuPreSelect(session);
                     switch (key)
                     {
                         case 'o':
@@ -286,10 +297,9 @@ namespace ConsoleTesterApp
             Console.WriteLine("Enter password:");
             string pass = Console.ReadLine();
 
-
             CreateSessionResponse response = TibInvoker.Portal.CreateSession(new CreateSessionArgs()
             {
-                ClientId = _clientId,
+                ClientId = new Guid(_clientId),
                 Username = user,
                 Password = pass,
             });
@@ -297,7 +307,7 @@ namespace ConsoleTesterApp
             ResponseHandler(response, "Press key to continue");
             if (!response.HasError)
             {
-                _session = response.SessionId;
+                _session = response.SessionId.ToString();
             }
         }
         #region Whitelabeling  (done)
@@ -313,7 +323,7 @@ namespace ConsoleTesterApp
                 Console.Clear();
                 var result = TibInvoker.Portal.GetWhiteLabelingData(new GetWhiteLabelingArgs
                 {
-                    SessionToken = _session,
+                    SessionToken = new Guid(_session),
                     WhiteLabelingLevel = type,
                     Id = new Guid(entityId)
                 });
@@ -326,7 +336,7 @@ namespace ConsoleTesterApp
         }
         private static void GetListWhiteLabelings()
         {
-            var result = TibInvoker.Portal.GetListWhiteLabeling(new GetWhiteLabelingArgs { SessionToken = _session });
+            var result = TibInvoker.Portal.GetListWhiteLabeling(new GetWhiteLabelingArgs { SessionToken = new Guid(_session) });
             ResponseHandler(result, JsonConvert.SerializeObject(result.whiteLabelings));
             Console.ReadKey();
         }
@@ -340,7 +350,7 @@ namespace ConsoleTesterApp
 
             var result = TibInvoker.Portal.SetWhiteLabeling(new SetWhiteLabelingArgs
             {
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
                 WhiteLabelingLevel = val,
                 WhiteLabelingData = localWhiteLabelingData
             });
@@ -355,7 +365,7 @@ namespace ConsoleTesterApp
             Guid entityId = new Guid(getEntityIdAsString(type));
             var result = TibInvoker.Portal.DeleteWhiteLabeling(new DeleteWhitelabelinArgs
             {
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
                 Id = entityId,
                 Level = type
             });
@@ -372,7 +382,7 @@ namespace ConsoleTesterApp
             var theGetResult = TibInvoker.Portal.GetWhiteLabelingData(
               new GetWhiteLabelingArgs
               {
-                  SessionToken = _session,
+                  SessionToken = new Guid(_session),
                   Id = entityId,
                   WhiteLabelingLevel = type
               }
@@ -390,7 +400,7 @@ namespace ConsoleTesterApp
                 var result = TibInvoker.Portal.UpdateWhiteLabeling(
                   new UpdateWhiteLabelingDataArgs
                   {
-                      SessionToken = _session,
+                      SessionToken = new Guid(_session),
                       UpdatedWhiteLabelingData = localWhiteLabelingToUpdate
                   });
                 ResponseHandler(result, "whiteLabeling Updated Correctly. ");
@@ -408,8 +418,8 @@ namespace ConsoleTesterApp
             var result = TibInvoker.Portal.GetCustomer(
               new Tib.Api.Model.Customer.GetCustomerArgs
               {
-                  SessionToken = _session,
-                  CustomerId = _customer
+                  SessionToken = new Guid(_session),
+                  CustomerId = new Guid(_customer)
               }
             );
             ResponseHandler(result, JsonConvert.SerializeObject(result.Customer));
@@ -427,8 +437,8 @@ namespace ConsoleTesterApp
 
             var result = TibInvoker.Portal.CreateCustomer(new Tib.Api.Model.Customer.CreateCustomerArgs
             {
-                SessionToken = _session,
-                ServiceId = _service,
+                SessionToken = new Guid(_session),
+                ServiceId = new Guid(_service),
                 Customer = new Tib.Api.Model.Customer.CustomerEntity
                 {
                     CustomerDescription = Description,
@@ -440,14 +450,16 @@ namespace ConsoleTesterApp
             });
             ResponseHandler(result, "Customer Added Successfuly.");
             if (!result.HasError)
-                _customer = result.CustomerId;
+                _customer = result.CustomerId.ToString();
         }
         private static void DeleteCustomer()
         {
+            Console.Write("Customer Id: ");
+            _customer = Console.ReadLine();
             var result = TibInvoker.Portal.DeleteCustomer(new Tib.Api.Model.Customer.DeleteCustomerArgs
             {
-                SessionToken = _session,
-                CustomerId = _customer
+                SessionToken = new Guid(_session),
+                CustomerId = new Guid(_customer)
             });
             ResponseHandler(result, "Customer Delete Successfuly");
         }
@@ -458,7 +470,7 @@ namespace ConsoleTesterApp
             var result = TibInvoker.Portal.GetCustomersByExternalId(
                 new Tib.Api.Model.Customer.GetCustomersByExternalIdArgs
                 {
-                    SessionToken = _session,
+                    SessionToken = new Guid(_session),
                     ExternalCustomerId = exID
                 }
               );
@@ -468,8 +480,8 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.ListCustomers(new Tib.Api.Model.Customer.ListCustomersArgs
             {
-                SessionToken = _session,
-                ServiceId = _service
+                SessionToken = new Guid(_session),
+                ServiceId = new Guid(_service)
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.Customers));
         }
@@ -482,10 +494,10 @@ namespace ConsoleTesterApp
             Console.Write("\nCustomer Language (1- fr, 2- eng) : "); int customerLang = int.Parse(Console.ReadLine());
             var result = TibInvoker.Portal.SaveCustomer(new Tib.Api.Model.Customer.SaveCustomerArgs
             {
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
                 Customer = new Tib.Api.Model.Customer.CustomerModel
                 {
-                    CustomerId = _customer,
+                    CustomerId = new Guid(_customer),
                     CustomerDescription = customerDesc,
                     CustomerExternalId = exId,
                     CustomerName = customerName,
@@ -510,10 +522,11 @@ namespace ConsoleTesterApp
             Console.Write("\nDescription : ");
             string desc = Console.ReadLine();
 
-
+            Console.Write("\nCustomerId : ");
+            _customer = Console.ReadLine();
             var result = TibInvoker.Portal.CreateBill(new CreateBillArgs
             {
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
                 BreakIfMerchantNeverBeenAuthorized = true,
                 BillData = new BillEntity
                 {
@@ -522,14 +535,14 @@ namespace ConsoleTesterApp
                     BillDescription = desc,
                     BillTitle = title,
                     Language = (LanguageEnum)language,
-                    MerchantId = _merchant,
-                    RelatedCustomerId = _customer,
+                    MerchantId = new Guid(_merchant),
+                    RelatedCustomerId = new Guid(_customer),
                     UseConvenientFeeRule = false
                 }
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.BillId));
             if (!result.HasError)
-                _bill = result.BillId;
+                _bill = result.BillId.ToString();
         }
         private static void DeleteBill()
         {
@@ -540,8 +553,8 @@ namespace ConsoleTesterApp
             {
                 var result = TibInvoker.Portal.DeleteBill(new DeleteBillArgs
                 {
-                    SessionToken = _session,
-                    BillId = _bill
+                    SessionToken = new Guid(_session),
+                    BillId = new Guid(_bill)
                 });
                 ResponseHandler(result, "Bill deleted successfuly");
             }
@@ -550,11 +563,11 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.ListBills(new ListBillsArgs
             {
-                SessionToken = _session,
-                ServiceId = _service,
+                SessionToken = new Guid(_session),
+                ServiceId = new Guid(_service),
                 FromDateTime = new DateTime(2020, 12, 31),
                 ToDateTime = DateTime.Now,
-                MerchantId = _merchant
+                MerchantId = new Guid(_merchant)
             });
 
             ResponseHandler(result, JsonConvert.SerializeObject(result.Bills));
@@ -563,8 +576,8 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.GetBill(new GetBillArgs
             {
-                SessionToken = _session,
-                BillId = _bill
+                SessionToken = new Guid(_session),
+                BillId = new Guid(_bill)
             }); ;
             ResponseHandler(result, JsonConvert.SerializeObject(result.Bill));
         }
@@ -573,17 +586,20 @@ namespace ConsoleTesterApp
         private static void CreatePayement()
         {
             Console.Clear();
-            Console.Write("CustomerEmail : ");
+            Console.Write("CustomerEmail: ");
             string customerEmail = Console.ReadLine();
             Console.WriteLine("Choose a payment Flow \n \t 1 - annonymous \n \t 2 - know Cutomer With Email");
             PaymentFlowEnum paymentFlow = (PaymentFlowEnum)int.Parse(Console.ReadLine());
             Console.WriteLine("Choose a Language \n \t 1 - french \n \t 2 - english");
             LanguageEnum language = (LanguageEnum)int.Parse(Console.ReadLine());
-
+            Console.Write("Bill ID\n: ");
+            _bill = Console.ReadLine();
+            Console.Write("Statement Description\n: ");
+            string description = Console.ReadLine();
             var result = TibInvoker.Portal.CreatePayment(new CreatePaymentArgs
             {
-                BillId = _bill,
-                SessionToken = _session,
+                BillId = new Guid(_bill),
+                SessionToken = new Guid(_session),
                 CustomerEmail = customerEmail,
                 PaymentInfo = new Tib.Api.Model.PaymentMethod.PaymentEntity
                 {
@@ -591,19 +607,19 @@ namespace ConsoleTesterApp
                     AskForCustomerConsent = true,
                     Language = language
                 },
-                StatementDescription = "",
+                StatementDescription = description,
                 AskForCustomerConsent = true
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.PaymentId));
             if (!result.HasError)
-                _payment = result.PaymentId.Value;
+                _payment = result.PaymentId.ToString();
         }
         private static void DeletePayment()
         {
             var result = TibInvoker.Portal.DeletePayment(new DeletePaymentArgs
             {
-                SessionToken = _session,
-                PaymentId = _payment.Value,
+                SessionToken = new Guid(_session),
+                PaymentId = new Guid(_payment),
             });
             ResponseHandler(result, "Deleted Successfuly.");
         }
@@ -641,9 +657,9 @@ namespace ConsoleTesterApp
           var res = TibInvoker.Portal.CreateFreeOperation(new CreateFreeOperationArgs
           {
             Amount = 1,
-            SessionToken = _session,
+            SessionToken = new Guid(_session),
             Language = LanguageEnum.English,
-            MerchantId = _merchant,
+            MerchantId = new Guid(_merchant),
             StatementDescription = "",
             TransactionDueDate = DateTime.Now.AddDays(1),
             TransferType = TransferTypeEnum.FreeDeposit,
@@ -663,7 +679,7 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.CreateDirectInteracTransaction(new CreateDirectInteracTransactionArgs
             {
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
                 Amount = 1,
                 Currency = CurrencyEnum.USD,
                 DueDate = DateTime.Now.AddDays(1),
@@ -677,7 +693,7 @@ namespace ConsoleTesterApp
                     TargetMobilePhoneNumber = "1212302190",
                 },
                 Language = LanguageEnum.English,
-                MerchantId = _merchant,
+                MerchantId = new Guid(_merchant),
                 ReferenceNumber = "1233029920",
                 TransferDirection = TransferDirectionEnum.Deposit,
                 StatementDescription = ""
@@ -688,8 +704,8 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.CreateTransactionFromRaw(new CreateTransactionFromRawArgs
             {
-                SessionToken = _session,
-                MerchantId = _merchant,
+                SessionToken = new Guid(_session),
+                MerchantId = new Guid(_merchant),
                 RawAcpFileContent = "",
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.TransactionsGroupId));
@@ -698,14 +714,14 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.CreateFreeOperation(new CreateFreeOperationArgs
             {
-                SessionToken = _session,
-                BillId = _bill,
+                SessionToken = new Guid(_session),
+                BillId = new Guid(_bill),
                 Amount = 1,
-                CustomerId = _customer,
+                CustomerId = new Guid(_customer),
                 Language = LanguageEnum.English,
-                MerchantId = _merchant,
+                MerchantId = new Guid(_merchant),
                 GroupId = "",
-                PaymentMethodId = _paymentMethodId,
+                PaymentMethodId = new Guid(_paymentMethodId),
                 ReferenceNumber = "",
                 TransactionDueDate = DateTime.Now.AddDays(10),
                 TransferFrequency = TransferFrequencyEnum.Monthly,
@@ -717,8 +733,8 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.RevertTransfer(new Tib.Api.Model.PaymentMethod.RevertTransferArgs
             {
-                SessionToken = _session,
-                TransferId = _transfer.Value,
+                SessionToken = new Guid(_session),
+                TransferId = new Guid(_transfer),
             });
             ResponseHandler(result, "Success.");
         }
@@ -726,7 +742,7 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.ListTransfers(new Tib.Api.Model.Payment.ListTransfersArgs
             {
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
                 FromDate = new DateTime(2020, 01, 01),
                 ExternalMerchantGroupId = "",
                 LevelFilterId = new Guid(),
@@ -744,7 +760,7 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.ListTransfersFast(new Tib.Api.Model.Payment.ListTransfersFastArgs
             {
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
                 FromDate = new DateTime(2020, 01, 01),
                 ExternalMerchantGroupId = "",
                 MerchantId = new Guid(), // Merchant Id
@@ -762,7 +778,7 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.ListTransfersForBillFast(new Tib.Api.Model.Payment.ListTransfersForBillFastArgs
             {
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
                 BillId = new Guid(), // the bill Id 
                 MerchantId = new Guid() // The Merchant Id .
             });
@@ -773,8 +789,8 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.GetRecuringTransfers(new GetRecuringTransfersArgs
             {
-                SessionToken = _session,
-                ServiceID = _service
+                SessionToken = new Guid(_session),
+                ServiceID = new Guid(_service)
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.RecuringTransfers));
         }
@@ -782,7 +798,7 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.DeleteRecuringTransfer(new DeleteRecuringTransferArgs
             {
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
                 RecuringTransferId = new Guid(""),
             });
         }
@@ -790,7 +806,7 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.CreateDirectAccountPaymentMethod(new Tib.Api.Model.PaymentMethod.CreateDirectAccountPaymentMethodArgs
             {
-                CustomerId = _customer,
+                CustomerId = new Guid(_customer),
                 Account = new Tib.Api.Model.PaymentMethod.AccountModel
                 {
                     AccountName = "placeholder for whatever name you like.",
@@ -803,17 +819,17 @@ namespace ConsoleTesterApp
                 IsCustomerAutomaticPaymentMethod = false,
                 IsCustomerWithdrawaAuthorized = false,
                 Language = LanguageEnum.English,
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.PaymentMethodId));
             if (!result.HasError)
-                _paymentMethodId = result.PaymentMethodId;
+                _paymentMethodId = result.PaymentMethodId.ToString();
         }
         private static void CreateCreditCardPaymentMethod()
         {
             var result = TibInvoker.Portal.CreateCreditCardPaymentMethod(new Tib.Api.Model.PaymentMethod.CreateCreditCardPaymentMethodArgs
             {
-                CustomerId = _customer,
+                CustomerId = new Guid(_customer),
                 CreditCard = new Tib.Api.Model.PaymentMethod.CreditCardModel
                 {
                     CardOwner = "PlaceHolder for whatever's the card owner's name.",
@@ -831,21 +847,21 @@ namespace ConsoleTesterApp
                     ExpirationYear = 2029,
                     Pan = 1231,
                 },
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
                 Language = LanguageEnum.English,
                 IsCustomerAutomaticPaymentMethod = false,
                 SkipValidation = true
             }); ;
             ResponseHandler(result, JsonConvert.SerializeObject(result.PaymentMethodId));
             if (!result.HasError)
-                _paymentMethodId = result.PaymentMethodId;
+                _paymentMethodId = result.PaymentMethodId.ToString();
         }
         private static void GetPaymentMethod()
         {
             var result = TibInvoker.Portal.GetPaymentMethod(new Tib.Api.Model.PaymentMethod.GetPaymentMethodArgs
             {
-                PaymentMethodId = _paymentMethodId,
-                SessionToken = _session,
+                PaymentMethodId = new Guid(_paymentMethodId),
+                SessionToken = new Guid(_session),
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.PaymentMethod));
         }
@@ -853,8 +869,8 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.ListPaymentMethods(new Tib.Api.Model.PaymentMethod.ListPaymentMethodsArgs
             {
-                CustomerId = _customer,
-                SessionToken = _session,
+                CustomerId = new Guid(_customer),
+                SessionToken = new Guid(_session),
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.PaymentMethods));
         }
@@ -862,9 +878,9 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.SetDefaultPaymentMethod(new Tib.Api.Model.PaymentMethod.SetDefaultPaymentMethodArgs
             {
-                CustomerId = _customer,
-                PaymentMethodId = _paymentMethodId,
-                SessionToken = _session
+                CustomerId = new Guid(_customer),
+                PaymentMethodId = new Guid(_paymentMethodId),
+                SessionToken = new Guid(_session)
             });
             ResponseHandler(result, "Successfuly set.");
         }
@@ -873,8 +889,8 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.DeletePaymentMethod(new Tib.Api.Model.PaymentMethod.DeletePaymentMethodArgs
             {
-                PaymentMethodId = _paymentMethodId,
-                SessionToken = _session
+                PaymentMethodId = new Guid(_paymentMethodId),
+                SessionToken = new Guid(_session)
             });
             ResponseHandler(result, "Deleted.");
         }
@@ -883,8 +899,8 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.GetPayment(new Tib.Api.Model.PaymentMethod.GetPaymentArgs
             {
-                PaymentId = _payment.Value,
-                SessionToken = _session
+                PaymentId = new Guid(_payment),
+                SessionToken = new Guid(_session)
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.Payment));
         }
@@ -893,8 +909,8 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.MarkPaymentResolved(new Tib.Api.Model.PaymentMethod.MarkPaymentResolvedArgs
             {
-                ListOfPayment = new List<Guid> { _payment.Value },
-                SessionToken = _session
+                ListOfPayment = new List<Guid> { new Guid(_payment) },
+                SessionToken = new Guid(_session)
             });
             ResponseHandler(result, "Success.");
         }
@@ -903,8 +919,8 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.ForcePaymentProcess(new Tib.Api.Model.PaymentMethod.ForcePaymentProcessArgs
             {
-                SessionToken = _session,
-                PaymentId = _payment.Value
+                SessionToken = new Guid(_session),
+                PaymentId = new Guid(_payment)
             });
             ResponseHandler(result, "Success");
         }
@@ -912,8 +928,8 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.Login(new Tib.Api.Model.Login.LoginArgs
             {
-                ClientId = _clientId,
-                SessionToken = _session,
+                ClientId = new Guid(_clientId),
+                SessionToken = new Guid(_session),
                 LoginsUserRelationsId = new Guid(),
                 Password = "",
                 Username = ""
@@ -925,10 +941,10 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.GetLoginAccessList(new Tib.Api.Model.Login.GetLoginAccesListArgs
             {
-                ClientId = _clientId,
+                ClientId = new Guid(_clientId),
                 Username = "userhdce",
                 Password = "userhdce",
-                SessionToken = _session
+                SessionToken = new Guid(_session)
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.LoginRelations));
         }
@@ -937,10 +953,10 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.GetDropInPublicToken(new Tib.Api.Model.DropIn.GetDropInPublicTokenArgs
             {
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
                 Amount = 1,
-                BillId = _bill,
-                CustomerId = _customer,
+                BillId = new Guid(_bill),
+                CustomerId = new Guid(_customer),
                 Description = "pay me",
                 DropInAuthorizedPaymentMethod = AutorizedPaymentMethodFlags.DirectAccount,
                 ExpirationDays = 10,
@@ -950,7 +966,7 @@ namespace ConsoleTesterApp
                 ShowCustomerExistingPaymentMethods = true,
                 Title = "pay this",
                 TransferType = TransferTypeEnum.Payment,
-                MerchantId = _merchant
+                MerchantId = new Guid(_merchant)
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.PublicTokenId));
         }
@@ -959,7 +975,7 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.AddNewDasProvider(new Tib.Api.Model.DropIn.AddNewDasProviderArgs
             {
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
                 DasProviderCanada = new Tib.Api.Model.DropIn.DasProviderEntityCanada
                 {
                     BusinessName = "canada for you",
@@ -979,38 +995,39 @@ namespace ConsoleTesterApp
                     IdentificationNumber = "333333"
                 },
                 DasProviderType = DasProviderTypeEnum.CanadaRevenueAgancy,
-                MerchantId = _merchant
+                MerchantId = new Guid(_merchant)
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.DasProviderId));
             if (!result.HasError)
-                _provider = result.DasProviderId;
+                _provider = result.DasProviderId.ToString();
         }
 
         private static void AddNewDasPayment()
         {
+            DateTime DasMonthlyPeriod= DateTime.Now.AddMonths(12);//new DateTime(2023, 02, 02)
             var result = TibInvoker.Portal.AddNewDasPayment(new Tib.Api.Model.DropIn.AddNewDasPaymentArgs
             {
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
                 DasPaymentCanada = new Tib.Api.Model.DropIn.DasPaymentCanadaEntity
                 {
                     LastPayPeriodEmployeeCount = 12,
                     PaymentAmount = 12,
-                    PeriodEndDate = new Tib.Api.Model.Merchant.DasMonthlyPeriod(new DateTime(2023, 02, 02)),
+                    PeriodEndDate = new Tib.Api.Model.Merchant.DasMonthlyPeriod(DasMonthlyPeriod),
                     PeriodRawRemuneration = 23,
                 },
                 DasPaymentQuebec = new Tib.Api.Model.DropIn.DasPaymentQuebecEntity
                 {
-                    PeriodEndDate = new Tib.Api.Model.DropIn.DasDateField(new DateTime(2023, 02, 02)),
+                    PeriodEndDate = new Tib.Api.Model.DropIn.DasDateField(DasMonthlyPeriod),
                     CNESST = 233,
                     HealthServiceFund = 2,
                     ParentalInsurancePlan = 2,
-                    PeriodStartDate = new Tib.Api.Model.DropIn.DasDateField(new DateTime(2020, 02, 02)),
+                    PeriodStartDate = new Tib.Api.Model.DropIn.DasDateField(DasMonthlyPeriod),
                     RetirementPensionPlan = 2,
                     WithhodingTax = 1
                 },
                 DasPaymentProviderType = DasProviderTypeEnum.CanadaRevenueAgancy,
-                DasProviderId = _provider.Value,
-                MerchantId = _merchant,
+                DasProviderId = new Guid(_provider),
+                MerchantId = new Guid(_merchant),
 
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.DasPaymentId));
@@ -1019,8 +1036,8 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.ListDasProviders(new Tib.Api.Model.DropIn.ListDasProvidersArgs
             {
-                MerchantId = _merchant,
-                SessionToken = _session
+                MerchantId = new Guid(_merchant),
+                SessionToken = new Guid(_session)
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.CanadaDasProvider) + " " + JsonConvert.SerializeObject(result.QuebecDasProvider));
         }
@@ -1029,9 +1046,9 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.ListDasPayments(new Tib.Api.Model.DropIn.ListDasPaymentsArgs
             {
-                SessionToken = _session,
-                MerchantId = _merchant,
-                DasProviderId = _provider.Value
+                SessionToken = new Guid(_session),
+                MerchantId = new Guid(_merchant),
+                DasProviderId = new Guid(_provider)
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.CanadaDasPayments) + " " + JsonConvert.SerializeObject(result.QuebecDasPayments));
         }
@@ -1039,7 +1056,7 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.GetMerchantsByExternalId(new Tib.Api.Model.Merchant.GetMerchantsByExternalIdArgs
             {
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
                 ExternalSystemId = "111",
                 ExternalSystemGroupId = "111",
             });
@@ -1050,7 +1067,7 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.ChangeInteracPaymentMethodQuestionAndAnswer(new Tib.Api.Model.PaymentMethod.ChangeInteracPaymentMethodQuestionAndAnswerArgs
             {
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
                 InteracAnswer = "",
                 InteracPaymentMethodId = new Guid(),
                 InteracQuestion = "",
@@ -1068,21 +1085,21 @@ namespace ConsoleTesterApp
             LanguageEnum lang = (LanguageEnum)int.Parse(Console.ReadLine());
             var result = TibInvoker.Portal.CreateSubClient(new Tib.Api.Model.SubClient.CreateSubClientArgs
             {
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
                 Name = subClientName,
                 Language = lang
             });
 
             ResponseHandler(result, result.ServiceId.ToString());
             if (!result.HasError)
-                _service = result.ServiceId;
+                _service = result.ServiceId.ToString();
         }
         private static void SetClientDefaultServiceFeeSettings()
         {
             var result = TibInvoker.Portal.SetClientDefaultServiceFeeSettings(new Tib.Api.Model.Service.SetClientDefaultServiceFeeSettingsArgs
             {
-                SessionToken = _session,
-                ClientId = _clientId,
+                SessionToken = new Guid(_session),
+                ClientId = new Guid(_clientId),
                 ServiceFeeSettings = new Tib.Api.Model.Service.ServiceFeeSettingsModel
                 {
                     ConvenientFeeDebitAbsoluteFee = 0,
@@ -1120,8 +1137,8 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.SetClientSettings(new Tib.Api.Model.Service.SetClientSettingsArgs
             {
-                SessionToken = _session,
-                CLientId = _clientId,
+                SessionToken = new Guid(_session),
+                CLientId = new Guid(_clientId),
                 ClientSettings = new Tib.Api.Model.Service.ClientSettings
                 {
                     CollectionLimitDaily = 93849,
@@ -1135,8 +1152,8 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.GetClientSettings(new Tib.Api.Model.Service.GetClientSettingsArgs
             {
-                SessionToken = _session,
-                CLientId = _clientId
+                SessionToken = new Guid(_session),
+                CLientId = new Guid(_clientId)
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.ClientSettings));
 
@@ -1145,7 +1162,7 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.ListServices(new Tib.Api.Model.Service.ListServicesArgs
             {
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.Services));
         }
@@ -1153,8 +1170,8 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.GetService(new Tib.Api.Model.Service.GetServiceArgs
             {
-                SessionToken = _session,
-                ServiceId = _service
+                SessionToken = new Guid(_session),
+                ServiceId = new Guid(_service)
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.Service));
         }
@@ -1169,7 +1186,7 @@ namespace ConsoleTesterApp
             string merchantEmail = Console.ReadLine();
             var result = TibInvoker.Portal.CreateMerchant(new Tib.Api.Model.Service.CreateMerchantArgs
             {
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
                 MerchantInfo = new Tib.Api.Model.Service.MerchantModel
                 {
                     EmailCopyTo = "EmailCopyTo@gmail.com",
@@ -1200,18 +1217,18 @@ namespace ConsoleTesterApp
                         Owner = "okey",
                     }
                 },
-                ServiceId = _service
+                ServiceId = new Guid(_service)
             });
             ResponseHandler(result, JsonConvert.SerializeObject(result.MerchantId));
             if (!result.HasError)
-                _merchant = result.MerchantId;
+                _merchant = result.MerchantId.ToString();
         }
         private static void GetMerchant()
         {
             var result = TibInvoker.Portal.GetMerchant(new Tib.Api.Model.Service.GetMerchantArgs
             {
-                SessionToken = _session,
-                MerchantId = _merchant
+                SessionToken = new Guid(_session),
+                MerchantId = new Guid(_merchant)
             });
 
             ResponseHandler(result, JsonConvert.SerializeObject(result.Merchant));
@@ -1220,8 +1237,8 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.SaveMerchant(new Tib.Api.Model.Service.SaveMerchantArgs
             {
-                SessionToken = _session,
-                MerchantId = _merchant,
+                SessionToken = new Guid(_session),
+                MerchantId = new Guid(_merchant),
                 MerchantInfo = new Tib.Api.Model.Service.MerchantModel
                 {
                     Account = new Tib.Api.Model.PaymentMethod.AccountModel { },
@@ -1234,8 +1251,8 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.SaveMerchantBasicInfo(new Tib.Api.Model.Service.SaveMerchantBasicInfoArgs
             {
-                SessionToken = _session,
-                MerchantId = _merchant,
+                SessionToken = new Guid(_session),
+                MerchantId = new Guid(_merchant),
                 MerchantInfo = new Tib.Api.Model.Service.MerchantModelBasicInfo
                 {
                     EmailCopyTo = "EmailCopyTo@gmail.com",
@@ -1265,8 +1282,8 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.SaveMerchantAccountInfo(new Tib.Api.Model.Service.SaveMerchantAccountInfoArgs
             {
-                SessionToken = _session,
-                MerchantId = _merchant,
+                SessionToken = new Guid(_session),
+                MerchantId = new Guid(_merchant),
                 Account = new Tib.Api.Model.PaymentMethod.AccountModel
                 {
                     AccountName = "name Updated via SDK",
@@ -1290,8 +1307,8 @@ namespace ConsoleTesterApp
             {
                 var result = TibInvoker.Portal.DeleteMerchant(new Tib.Api.Model.Merchant.DeleteMerchantArgs
                 {
-                    SessionToken = _session,
-                    MerchantId = _merchant
+                    SessionToken = new Guid(_session),
+                    MerchantId = new Guid(_merchant)
                 });
                 ResponseHandler(result, "Merchant Deleted.");
 
@@ -1305,10 +1322,10 @@ namespace ConsoleTesterApp
         {
             var result = TibInvoker.Portal.ListExecutedOperations(new Tib.Api.Model.Report.ListExecutedOperationsArgs
             {
-                SessionToken = _session,
+                SessionToken = new Guid(_session),
                 DateType = DateTypeEnum.CreatedDate,
                 FromDate = new DateTime(2018, 01, 01),
-                MerchantId = _merchant,
+                MerchantId = new Guid(_merchant),
                 ToDate = DateTime.Now,
                 TransferType = TransferTypeFlag.All,
                 OnlyWithErrors = false,

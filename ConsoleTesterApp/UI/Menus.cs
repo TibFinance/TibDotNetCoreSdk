@@ -16,7 +16,7 @@ namespace ConsoleTesterApp.UI
     /// <returns></returns>
     public static char MenuPreSelect(Guid? sessionToken = null)
     {
-      if (sessionToken.HasValue)
+      if (sessionToken!=Guid.Empty)
       {
 
         Title("Pre Select");
