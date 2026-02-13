@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Version>2.0.0</Version>
+    <Authors>TIB Finance</Authors>
+    <Description>C# SDK for the TIB Finance payment processing API</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/TibFinance/TibDotNetCoreSdk</RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ConsoleTesterApp\**" />
+    <Compile Remove="TestRunner\**" />
+    <Compile Remove="PackageLocallyDownloaded\**" />
+    <!-- Exclude stale internal directories not part of the public SDK -->
+    <Compile Remove="Acp\**" />
+    <Compile Remove="Batch\**" />
+    <Compile Remove="Boarding\**" />
+    <Compile Remove="Configuration\**" />
+    <Compile Remove="ExternalDataVault\**" />
+    <Compile Remove="ExternalForm\**" />
+    <Compile Remove="ExternalKey\**" />
+    <Compile Remove="Form\**" />
+    <Compile Remove="Moneris\**" />
+    <Compile Remove="PendingChanges\**" />
+    <Compile Remove="SESAR\**" />
+    <Compile Remove="TaskAgent\**" />
+    <Compile Remove="Model\ConvenientFee\**" />
+    <Compile Remove="Model\Payment\GetBlueSnapTokenResponse.cs" />
+    <Compile Remove="Das\**" />
+    <Compile Remove="Financial\SavePaymentMethodOnProviderResponse.cs" />
+    <EmbeddedResource Remove="ConsoleTesterApp\**" />
+    <EmbeddedResource Remove="TestRunner\**" />
+    <EmbeddedResource Remove="PackageLocallyDownloaded\**" />
+    <None Remove="ConsoleTesterApp\**" />
+    <None Remove="TestRunner\**" />
+    <None Remove="PackageLocallyDownloaded\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Portable.BouncyCastle" Version="1.8.10" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>PackageLocallyDownloaded\bouncycastle.netcore\1.8.8\lib\net20\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
