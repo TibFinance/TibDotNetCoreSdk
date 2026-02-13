@@ -1,6 +1,6 @@
 # TIB Finance .NET Core SDK
 
-![.NET](https://img.shields.io/badge/.NET-6.0%2B-512BD4)
+![.NET](https://img.shields.io/badge/.NET-8.0%2B-512BD4)
 
 .NET Core SDK for the TIB Finance payment processing API.
 

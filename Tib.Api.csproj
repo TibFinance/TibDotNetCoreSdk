@@ -47,10 +47,5 @@
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="BouncyCastle.Crypto">
-      <HintPath>PackageLocallyDownloaded\bouncycastle.netcore\1.8.8\lib\net20\BouncyCastle.Crypto.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 
 </Project>
