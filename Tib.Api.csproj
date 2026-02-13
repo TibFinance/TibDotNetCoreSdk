@@ -17,23 +17,6 @@
     <Compile Remove="ConsoleTesterApp\**" />
     <Compile Remove="TestRunner\**" />
     <Compile Remove="PackageLocallyDownloaded\**" />
-    <!-- Exclude stale internal directories not part of the public SDK -->
-    <Compile Remove="Acp\**" />
-    <Compile Remove="Batch\**" />
-    <Compile Remove="Boarding\**" />
-    <Compile Remove="Configuration\**" />
-    <Compile Remove="ExternalDataVault\**" />
-    <Compile Remove="ExternalForm\**" />
-    <Compile Remove="ExternalKey\**" />
-    <Compile Remove="Form\**" />
-    <Compile Remove="Moneris\**" />
-    <Compile Remove="PendingChanges\**" />
-    <Compile Remove="SESAR\**" />
-    <Compile Remove="TaskAgent\**" />
-    <Compile Remove="Model\ConvenientFee\**" />
-    <Compile Remove="Model\Payment\GetBlueSnapTokenResponse.cs" />
-    <Compile Remove="Das\**" />
-    <Compile Remove="Financial\SavePaymentMethodOnProviderResponse.cs" />
     <EmbeddedResource Remove="ConsoleTesterApp\**" />
     <EmbeddedResource Remove="TestRunner\**" />
     <EmbeddedResource Remove="PackageLocallyDownloaded\**" />

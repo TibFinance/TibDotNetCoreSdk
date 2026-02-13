@@ -1,4 +1,4 @@
-﻿// ***********************************************************************
+// ***********************************************************************
 // Assembly         : Tib.Api
 // Author           : cboivin
 // Created          : 05-15-2019
@@ -139,7 +139,7 @@ namespace Tib.Api
           SymetricCryptedData cryptedObject = new SymetricCryptedData()
           {
             EncryptedBytes = Convert.FromBase64String(callReturn.CryptedBase64Data),
-            IV = callReturn.IV
+            IV = callReturn.IV.ToArray()
           };
 
           string responseData = cryptoHelper.SymetricDecryptToString(cryptedObject, fullSymetricKey.ToArray(), Encoding.UTF8);
