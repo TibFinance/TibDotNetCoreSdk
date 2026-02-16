@@ -5,7 +5,7 @@ using Tib.Api.Common;
 namespace Tib.Api.Model.ConvenientFee
 {
     /// <summary>
-    /// Object that represent Bill to be paid by an End User
+    /// Represents the DeleteConvenientFeeSettingsArgs model.
     /// </summary>
     public class DeleteConvenientFeeSettingsArgs : ClientCallBaseArgs
     {

@@ -7,7 +7,7 @@ using Tib.Api.Common;
 namespace Tib.Api.Model.ConvenientFee
 {
     /// <summary>
-    /// Object that represent Bill to be paid by an End User
+    /// Represents the GetConvenientFeeSettingsByMerchantResponse model.
     /// </summary>
     public class GetConvenientFeeSettingsByMerchantResponse : ClientBaseResponse
     {

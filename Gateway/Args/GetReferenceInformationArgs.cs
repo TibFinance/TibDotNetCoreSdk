@@ -6,7 +6,7 @@ using Tib.Api.Common;
 namespace Tib.Api.Gateway.Args
 {
     /// <summary>
-    /// Object that represent Bill to be paid by an End User
+    /// Represents the GetReferenceInformationArgs model.
     /// </summary>
     public class GetReferenceInformationArgs : ClientCallBaseArgs
     {

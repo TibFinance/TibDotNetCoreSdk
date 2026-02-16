@@ -6,7 +6,7 @@ using Tib.Api.Common;
 namespace Tib.Api.Model.Bill
 {
     /// <summary>
-    /// Object that represent Bill to be paid by an End User
+    /// Represents the CreateBillAdvancedArgs model.
     /// </summary>
     public class CreateBillAdvancedArgs : ClientCallBaseArgs
     {

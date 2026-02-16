@@ -6,7 +6,7 @@ using Tib.Api.Gateway.Args;
 namespace Tib.Api.Gateway.Args
 {
     /// <summary>
-    /// Object that represent Bill to be paid by an End User
+    /// Represents the ProcessDropInInteracAccountArgs model.
     /// </summary>
     public class ProcessDropInInteracAccountArgs : BaseProcessDropInArgs
     {

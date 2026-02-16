@@ -6,7 +6,7 @@ using Tib.Api.Model.Bill;
 namespace Tib.Api.Model.Bill
 {
     /// <summary>
-    /// Object that represent Bill to be paid by an End User
+    /// Represents the BillEntityAdvanced model.
     /// </summary>
     public class BillEntityAdvanced : BillEntity
     {

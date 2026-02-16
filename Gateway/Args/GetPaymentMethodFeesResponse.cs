@@ -5,7 +5,7 @@ using Tib.Api.Common;
 namespace Tib.Api.Gateway.Args
 {
     /// <summary>
-    /// Object that represent Bill to be paid by an End User
+    /// Represents the GetPaymentMethodFeesResponse model.
     /// </summary>
     public class GetPaymentMethodFeesResponse : ClientBaseResponse
     {

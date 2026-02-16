@@ -8,7 +8,7 @@ using Tib.Api.Common;
 namespace Tib.Api.Financial
 {
     /// <summary>
-    /// Object that represent Bill to be paid by an End User
+    /// Represents the SavePaymentMethodOnProviderArgs model.
     /// </summary>
     public class SavePaymentMethodOnProviderArgs : ClientCallBaseArgs
     {

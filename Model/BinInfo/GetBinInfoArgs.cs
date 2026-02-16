@@ -5,7 +5,7 @@ using Tib.Api.Common;
 namespace Tib.Api.Model.BinInfo
 {
     /// <summary>
-    /// Object that represent Bill to be paid by an End User
+    /// Represents the GetBinInfoArgs model.
     /// </summary>
     public class GetBinInfoArgs : ClientCallBaseArgs
     {
