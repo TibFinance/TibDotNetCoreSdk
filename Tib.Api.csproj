@@ -14,18 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ConsoleTesterApp\**" />
-    <Compile Remove="TestRunner\**" />
-    <Compile Remove="PackageLocallyDownloaded\**" />
-    <EmbeddedResource Remove="ConsoleTesterApp\**" />
-    <EmbeddedResource Remove="TestRunner\**" />
-    <EmbeddedResource Remove="PackageLocallyDownloaded\**" />
-    <None Remove="ConsoleTesterApp\**" />
-    <None Remove="TestRunner\**" />
-    <None Remove="PackageLocallyDownloaded\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Portable.BouncyCastle" Version="1.8.10" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
   </ItemGroup>

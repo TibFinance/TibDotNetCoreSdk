@@ -5,11 +5,11 @@
 //
 // Last Modified By : cboivin
 // Last Modified On : 05-15-2019
-// Last Modified By : hiteshpatel
+// Last Modified By : TIB Finance
 // Last Modified On : 04-12-2021
 // ***********************************************************************
 // <copyright file="ApiClient.cs" company="Tib.finance">
-//     Copyright ©  2018
+//     Copyright ©  2026
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
