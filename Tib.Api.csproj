@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Version>2.0.0</Version>
+    <Version>2.0.2</Version>
     <Authors>TIB Finance</Authors>
     <Description>C# SDK for the TIB Finance payment processing API</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
