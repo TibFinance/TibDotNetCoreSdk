@@ -11,15 +11,15 @@ namespace Tib.Api.Gateway.Response
     {
         
     /// <summary>
-    /// Generates a unique identifier for a specific service to facilitate the creation of a customer list.
+    /// Identifier of the service for which recurring transfers are requested
     /// </summary>
-    /// <value>Serves as a unique key that distinctly identifies a specific service within the system.</value>
+    /// <value>Required GUID; must correspond to an existing service owned by the caller</value>
     public Guid ServiceId { get; set; }
 
     /// <summary>
-    /// Retrieves or assigns the service's name.
+    /// The name of the service that processed the transfer
     /// </summary>
-    /// <value>This property holds the name of the service, which is crucial for identifying and managing the service within the TIB Finance system.</value>
+    /// <value>String, non‑empty, max length 64 characters; reflects the internal service identifier returned in the ListTransfers response</value>
     public string ServiceName { get; set; }
 
     }

@@ -20,27 +20,27 @@ namespace Tib.Api.Financial
     public List<ProviderAccount> ProviderCredentials { get; set; }
 
     /// <summary>
-    /// Retrieves or assigns the currency type used in transactions.
+    /// The ISO 4217 three‑letter code of the currency in which the transfer was executed.
     /// </summary>
-    /// <value>This property represents the currency type, defined by the CurrencyEnum, used for financial operations within the TIB Finance system.</value>
+    /// <value>One of the supported CurrencyEnum values (e.g., USD, EUR, GBP), always uppercase; matches the currency of the source and destination accounts and is required for all transfer responses.</value>
     public CurrencyEnum Currency { get; set; }
 
     /// <summary>
-    /// The MerchantId property retrieves or assigns a unique Guid identifier for a specific merchant.
+    /// The unique identifier of the merchant initiating the payment request.
     /// </summary>
-    /// <value>The MerchantId property signifies a unique Guid identifier that corresponds to a specific merchant within the system.</value>
+    /// <value>Must be a valid GUID representing a registered merchant; cannot be empty or null.</value>
     public Guid MerchantId { get; set; }
 
     /// <summary>
-    /// Specifies the starting date for filtering payment due dates.
+    /// The start date-time for the transfer search window.
     /// </summary>
-    /// <value>Indicates the initial date from which payments are considered.</value>
+    /// <value>ISO‑8601 DateTime (UTC). Must be earlier than or equal to ToDate and cannot be set in the future.</value>
     public DateTime FromDate { get; set; }
 
     /// <summary>
-    /// Specifies the payment due date.
+    /// Upper bound of the transfer creation date range for the query
     /// </summary>
-    /// <value>Indicates the end date for payment processing.</value>
+    /// <value>ISO‑8601 UTC DateTime; inclusive; must be ≥ FromDate; cannot exceed current server time; typical max range 90 days</value>
     public DateTime ToDate { get; set; }
 
     }
