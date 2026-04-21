@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Version>2.0.2</Version>
+    <Version>2.0.3</Version>
     <Authors>TIB Finance</Authors>
     <Description>C# SDK for the TIB Finance payment processing API</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -12,6 +12,36 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile></DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Acp\**" />
+    <Compile Remove="Batch\**" />
+    <Compile Remove="Boarding\**" />
+    <Compile Remove="Configuration\**" />
+    <Compile Remove="ConsoleTesterApp\**" />
+    <Compile Remove="Das\**" />
+    <Compile Remove="ExternalDataVault\**" />
+    <Compile Remove="ExternalForm\**" />
+    <Compile Remove="ExternalKey\**" />
+    <Compile Remove="Form\**" />
+    <Compile Remove="Moneris\**" />
+    <Compile Remove="PackageLocallyDownloaded\**" />
+    <Compile Remove="PendingChanges\**" />
+    <Compile Remove="SESAR\**" />
+    <Compile Remove="TaskAgent\**" />
+    <Compile Remove="TestRunner\**" />
+    <Compile Remove="Financial\SavePaymentMethodOnProviderResponse.cs" />
+    <Compile Remove="Financial\RequiredMutually.cs" />
+    <Compile Remove="Common\Attributes\Requires2FAAttribute.cs" />
+    <Compile Remove="Common\TibPublicSdkAttribute.cs" />
+    <Compile Remove="Model\Payment\GetBlueSnapTokenResponse.cs" />
+    <EmbeddedResource Remove="ConsoleTesterApp\**" />
+    <EmbeddedResource Remove="TestRunner\**" />
+    <EmbeddedResource Remove="PackageLocallyDownloaded\**" />
+    <None Remove="ConsoleTesterApp\**" />
+    <None Remove="TestRunner\**" />
+    <None Remove="PackageLocallyDownloaded\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Portable.BouncyCastle" Version="1.8.10" />
