@@ -1,8 +1,4 @@
-﻿using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.OpenSsl;
-using Org.BouncyCastle.Security;
-using System;
+﻿using System;
 using System.IO;
 using System.Security.Cryptography;
 
@@ -19,13 +15,15 @@ namespace Tib.Api.CryptographyService
       /// <returns></returns>
       public static RSACryptoServiceProvider ImportPrivateKey(string pem)
       {
-        PemReader pr = new PemReader(new StringReader(pem));
-        AsymmetricCipherKeyPair KeyPair = (AsymmetricCipherKeyPair)pr.ReadObject();
-        RSAParameters rsaParams = DotNetUtilities.ToRSAParameters((RsaPrivateCrtKeyParameters)KeyPair.Private);
+        using (RSA rsa = RSA.Create())
+        {
+          rsa.ImportFromPem(pem);
+          RSAParameters rsaParams = rsa.ExportParameters(true);
 
-        RSACryptoServiceProvider csp = new RSACryptoServiceProvider();// cspParams);
-        csp.ImportParameters(rsaParams);
-        return csp;
+          RSACryptoServiceProvider csp = new RSACryptoServiceProvider();// cspParams);
+          csp.ImportParameters(rsaParams);
+          return csp;
+        }
       }
 
       /// <summary>
@@ -35,13 +33,15 @@ namespace Tib.Api.CryptographyService
       /// <returns></returns>
       public static RSACryptoServiceProvider ImportPublicKey(string pem)
       {
-        PemReader pr = new PemReader(new StringReader(pem));
-        AsymmetricKeyParameter publicKey = (AsymmetricKeyParameter)pr.ReadObject();
-        RSAParameters rsaParams = DotNetUtilities.ToRSAParameters((RsaKeyParameters)publicKey);
+        using (RSA rsa = RSA.Create())
+        {
+          rsa.ImportFromPem(pem);
+          RSAParameters rsaParams = rsa.ExportParameters(false);
 
-        RSACryptoServiceProvider csp = new RSACryptoServiceProvider();// cspParams);
-        csp.ImportParameters(rsaParams);
-        return csp;
+          RSACryptoServiceProvider csp = new RSACryptoServiceProvider();// cspParams);
+          csp.ImportParameters(rsaParams);
+          return csp;
+        }
       }
 
       /// <summary>

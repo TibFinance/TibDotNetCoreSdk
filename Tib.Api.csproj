@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Version>2.0.4</Version>
+    <Version>2.0.5</Version>
     <Authors>TIB Finance</Authors>
     <Description>C# SDK for the TIB Finance payment processing API</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -44,7 +44,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Portable.BouncyCastle" Version="1.8.10" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
   </ItemGroup>
 
