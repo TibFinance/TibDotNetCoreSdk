@@ -16,27 +16,38 @@ Add a project reference:
 dotnet add reference path/to/Tib.Api.csproj
 ```
 
+Alternatively, download the prebuilt NuGet package (`.nupkg`) from the latest [GitHub release](https://github.com/TibFinance/TibDotNetCoreSdk/releases) and install it with `dotnet add package Tib.Api --source <folder>`.
+
 ## Quick Start
 
 ```csharp
+using System;
 using Tib.Api;
+using Tib.Api.Model.General;
 
 TibInvoker.InitializePortal("https://sandboxportal.tib.finance");
 
 var sessionArgs = new CreateSessionArgs {
-    ClientId = "your_client_id",
+    ClientId = Guid.Parse("00000000-0000-0000-0000-000000000000"), // replace with your client id
     Username = "your_username",
     Password = "your_password"
 };
 var response = TibInvoker.Portal.CreateSession(sessionArgs);
-Console.WriteLine(response.SessionId);
+if (response.HasError)
+{
+    Console.WriteLine("Session failed: " + response.Messages);
+}
+else
+{
+    Console.WriteLine(response.SessionId);
+}
 ```
 
 ## Documentation
 
 For the complete API reference and guides, visit [doc.tib.finance](https://doc.tib.finance).
 
-This SDK provides access to **56 API methods** for payment processing, merchant management, and financial operations.
+This SDK provides access to **62 API methods** for payment processing, merchant management, and financial operations.
 
 ## Other TIB Finance SDKs
 

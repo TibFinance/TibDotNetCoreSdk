@@ -39,6 +39,21 @@ namespace Tib.Api
     private string _siteUrl = "";
 
     /// <summary>
+    /// The shared HTTP client
+    /// </summary>
+    private static readonly HttpClient _httpClient;
+
+    /// <summary>
+    /// Initializes static members of the <see cref="ApiClient"/> class.
+    /// </summary>
+    static ApiClient()
+    {
+      _httpClient = new HttpClient();
+      _httpClient.Timeout = TimeSpan.FromMinutes(5);
+      _httpClient.DefaultRequestHeaders.Add("TIB_API_Version", "0.2");
+    }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ApiClient"/> class.
     /// </summary>
     /// <param name="siteUrl">The site URL.</param>
@@ -66,14 +81,10 @@ namespace Tib.Api
     {
       Tresponse response = new Tresponse();
 
-      HttpClient client = new HttpClient();
-      client.Timeout = TimeSpan.FromMinutes(5);
-      client.DefaultRequestHeaders.Add("TIB_API_Version", "0.2");
-
       var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
       //GetPublicKey
-      HttpResponseMessage getPublicKeyResponse = client.PostAsync(_siteUrl + "/Data/GetPublicKey", null).Result;
+      HttpResponseMessage getPublicKeyResponse = _httpClient.PostAsync(_siteUrl + "/Data/GetPublicKey", new StringContent("", UnicodeEncoding.UTF8, "application/json")).Result;
       string getPublicKeyContent = getPublicKeyResponse.Content.ReadAsStringAsync().Result;
       if (getPublicKeyContent.StartsWith("{\"KeyToken\""))
       {
@@ -102,7 +113,7 @@ namespace Tib.Api
 
         //ExecuteKeyExchange
         StringContent jsonStringContentKeyExchangeArgs = new StringContent(jsonKeyExchangeArgs, UnicodeEncoding.UTF8, "application/json");
-        HttpResponseMessage executeKeyExchangeResponse = client.PostAsync(_siteUrl + "/Data/ExecuteKeyExchange", jsonStringContentKeyExchangeArgs).Result;
+        HttpResponseMessage executeKeyExchangeResponse = _httpClient.PostAsync(_siteUrl + "/Data/ExecuteKeyExchange", jsonStringContentKeyExchangeArgs).Result;
         string executeKeyExchangeContent = executeKeyExchangeResponse.Content.ReadAsStringAsync().Result;
         KeyExchangeReturnedKey keyExchangeReturnedKey = JsonSerializer.Deserialize<KeyExchangeReturnedKey>(executeKeyExchangeContent, jsonOptions);
 
@@ -128,7 +139,7 @@ namespace Tib.Api
 
         //Perform the call
         StringContent jsonStringContentCallCryptedObject = new StringContent(callCryptedObjectJsonString, UnicodeEncoding.UTF8, "application/json");
-        HttpResponseMessage callResponse = client.PostAsync(_siteUrl + "/Data/" + methodName, jsonStringContentCallCryptedObject).Result;
+        HttpResponseMessage callResponse = _httpClient.PostAsync(_siteUrl + "/Data/" + methodName, jsonStringContentCallCryptedObject).Result;
         string callResponseStringContent = callResponse.Content.ReadAsStringAsync().Result;
 
         if (callResponseStringContent.StartsWith("{\"CryptedBase64Data\""))
