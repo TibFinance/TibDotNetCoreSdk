@@ -8,7 +8,7 @@ namespace Tib.Api.Common
   public class ClientCallBaseArgs
   {
     /// <summary>
-    /// Session ID obtained by calling the CreateSession method
+    /// The SessionId returned by CreateSession or Login.
     /// </summary>
     public Guid? SessionToken { get; set; }
 
