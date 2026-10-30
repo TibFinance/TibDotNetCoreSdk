@@ -11,7 +11,7 @@ namespace Tib.Api.Common
     /// <summary>
     /// list of errors that came from the Api 
     /// </summary>
-    public List<BaseServiceError> Errors { get; set; }
+    public List<BaseServiceError> Errors { get; set; } = new List<BaseServiceError>();
     /// <summary>
     /// Boolean to tell if there is a error or not
     /// </summary>
